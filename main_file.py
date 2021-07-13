@@ -27,14 +27,14 @@ class User(db.Model):
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html', subtitle='Home Page',
-                           text='This is the home page')
+    return render_template('home.html', subtitle='Welcome to dogsarecool',
+                           text='Here you will learn about what makes dogs so cool')
 
   
 @app.route("/dogs") 
 def dogs():
     return render_template('dogs.html', subtitle='Dog Page',
-                           text='This is the dog page')
+                           text='This is the dog page, you\'ll get a chance to look at dogs')
 
 
 @app.route("/register", methods=['GET', 'POST'])
