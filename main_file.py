@@ -21,19 +21,22 @@ class User(db.Model):
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html', subtitle='Home Page', text='This is the home page')
+    return render_template('home.html', subtitle='Home Page',
+                           text='This is the home page')
 
   
 @app.route("/dogs") 
 def dogs():
-    return render_template('dogs.html', subtitle='Dog Page', text='This is the dog page')
+    return render_template('dogs.html', subtitle='Dog Page',
+                           text='This is the dog page')
 
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
     if form.validate_on_submit(): # checks if entries are valid
-        user = User(username=form.username.data, email=form.email.data, password=form.password.data)
+        user = User(username=form.username.data, email=form.email.data,
+                    password=form.password.data)
         db.session.add(user)
         db.session.commit()
         flash(f'Account created for {form.username.data}!', 'success')
@@ -41,5 +44,11 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
+@app.route("/captions")
+def captions():
+    TITLE = "The Science of DOGS"
+    FILE_NAME = "The_Science_of_DOGS.wav"
+    return render_template('captions.html', songName=TITLE, file=FILE_NAME)
+  
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
