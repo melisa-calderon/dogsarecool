@@ -19,8 +19,8 @@ jobs:
           pip3 install flask-wtf
           pip3 install flask-sqlalchemy
           pip3 install email-validator
-          pip3 install speech_recognition
-          pip3 install Turb
+          pip3 install SpeechRecognition
+          pip3 install turbo-flask
 
       - name: Test webpages
         run: |
