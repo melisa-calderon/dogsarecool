@@ -19,6 +19,10 @@ jobs:
           pip3 install flask-wtf
           pip3 install flask-sqlalchemy
           pip3 install email-validator
+          pip3 install speech_recognition
+          pip3 install Turb
 
       - name: Test webpages
-        run: python3 tests/test_basic.py
+        run: |
+          python3 tests/test_basic.py
+          python3 tests/test_users.py
