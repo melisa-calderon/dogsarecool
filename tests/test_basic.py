@@ -29,9 +29,9 @@ class BasicTests(unittest.TestCase):
         response = self.app.get('/dogs', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
-#    def test_captions_page(self):
-#        response = self.app.get('/captions', follow_redirects=True)
-#        self.assertEqual(response.status_code, 200)
+    def test_captions_page(self):
+        response = self.app.get('/captions', follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
 
 if __name__ == "__main__":
     unittest.main()
