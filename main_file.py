@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from audio import printWAV
 import time, random, threading
 from turbo_flask import Turbo
+# from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '9ec7f20aec87d783c5f9aa84f11d7c7a'
@@ -13,6 +14,9 @@ db = SQLAlchemy(app)
 interval= 9
 FILE_NAME = "The_Science_of_DOGS.wav"
 turbo = Turbo(app)
+
+# bcrypt = Bcrypt(app)
+
 
 class User(db.Model):
   id = db.Column(db.Integer, primary_key=True)
