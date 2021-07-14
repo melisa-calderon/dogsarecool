@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from audio import printWAV
 import time, random, threading
 from turbo_flask import Turbo
-# from flask_bcrypt import Bcrypt
+from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '9ec7f20aec87d783c5f9aa84f11d7c7a'
@@ -15,17 +15,17 @@ interval= 9
 FILE_NAME = "The_Science_of_DOGS.wav"
 turbo = Turbo(app)
 
-# bcrypt = Bcrypt(app)
+bcrypt = Bcrypt(app)
 
 
 class User(db.Model):
-  id = db.Column(db.Integer, primary_key=True)
-  username = db.Column(db.String(20), unique=True, nullable=False)
-  email = db.Column(db.String(120), unique=True, nullable=False)
-  password = db.Column(db.String(60), nullable=False)
-
-  def __repr__(self):
-    return f"User('{self.username}', '{self.email}')"
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(60), nullable=False)
+    
+    def __repr__(self):
+        return f"User('{self.username}', '{self.email}')"
   
     
 @app.route("/")
@@ -43,14 +43,22 @@ def dogs():
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-    form = RegistrationForm()
+    form = RegistrationForm() 
     if form.validate_on_submit(): # checks if entries are valid
+        pw = bcrypt.generate_password_hash(form.password.data)
         user = User(username=form.username.data, email=form.email.data,
-                    password=form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        flash(f'Account created for {form.username.data}!', 'success')
-        return redirect(url_for('home')) # if so - send to home page
+                password=pw)
+        try:
+            db.session.add(user)
+            db.session.commit()
+        except Exception as e: 
+            if 'user.username' in str(e):
+                flash(f'Username taken, try again.', 'error')
+            if 'user.email' in str(e):
+                flash(f'Email already used, try another email.', 'error')
+        else:        
+            flash(f'Account created for {form.username.data}!', 'success')
+            return redirect(url_for('home')) # if so - send to home page
     return render_template('register.html', title='Register', form=form)
 
 
